@@ -42,9 +42,15 @@ with socket.socket() as s:
                 for el in headers_name_list:
                     body += f'<p>header-name: {el}</p>'
 
+                headers = '\r\n'.join([
+                    status_line,
+                    'Content-Type: text/html;',
+                    f'Content-Length: {len(body)}'
+                 ])
+
                 # формируем и отправляем ответ
                 resp = '\r\n\r\n'.join([
-                    status_line,
+                    headers,
                     body
                 ])
                 sent_bytes = conn.send(resp.encode('utf-8'))
